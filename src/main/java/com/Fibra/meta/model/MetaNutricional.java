@@ -1,4 +1,4 @@
-package com.Fibra.meta.dto;
+package com.Fibra.meta.model;
 
 public class MetaNutricional {
 }
