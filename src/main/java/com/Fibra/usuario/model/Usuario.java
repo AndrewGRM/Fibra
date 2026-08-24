@@ -1,36 +1,42 @@
 package com.Fibra.usuario.model;
 
-import jakarta.persistence.Entity;
+import com.Fibra.treino.model.Treino;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@AllArgsConstructor
+@Table(name = "usuarios")
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Usuario {
 
-    // Utilizar um numero de matricula auto gerado pelo banco ou CPF
-    Integer matricula;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long matricula; // Chave primária (PK)
 
-    String username;
+    private String username;
+    private String email;
+    private String password;
 
-    String email;
-    //Trocar para tipo para password em breve
-    String password;
+    private int idade;
+    private Double peso;
+    private Double altura;
+    private String genero;
 
-    int idade;
+    private Boolean role;
 
-    Double peso;
-
-    Double altura;
-
-    String genero;
-
-    Boolean role; // ADMIN, USER
-
-    List<String> unidadeMedida;
+    @ElementCollection
+    private List<String> unidadeMedida;
 
     private Boolean enabled;
+
+    // Relacionamento 1:N -> Um usuário possui vários treinos
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Treino> treinos = new ArrayList<>();
 }
