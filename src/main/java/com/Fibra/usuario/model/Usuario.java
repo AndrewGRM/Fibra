@@ -2,26 +2,30 @@ package com.Fibra.usuario.model;
 
 import com.Fibra.treino.model.Treino;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long matricula; // Chave primária (PK)
+    private Long id; // Padronizado como id
 
-    private String username;
+    @Column(nullable = false)
+    private String nome; // Padronizado como nome
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
 
     private int idade;
@@ -36,7 +40,6 @@ public class Usuario {
 
     private Boolean enabled;
 
-    // Relacionamento 1:N -> Um usuário possui vários treinos
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Treino> treinos = new ArrayList<>();
 }

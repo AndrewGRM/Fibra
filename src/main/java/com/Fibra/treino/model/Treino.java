@@ -2,14 +2,13 @@ package com.Fibra.treino.model;
 
 import com.Fibra.usuario.model.Usuario;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "treinos")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Treino {
@@ -26,8 +25,12 @@ public class Treino {
     private LocalDateTime dataCriacao = LocalDateTime.now();
     private LocalDateTime dataAtualizacao;
 
-    // Relacionamento N:1 -> Vários treinos pertencem a um Usuário
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_matricula", nullable = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
+
+    @PreUpdate
+    public void preUpdate() {
+        this.dataAtualizacao = LocalDateTime.now();
+    }
 }
